@@ -23,9 +23,9 @@ public class Detalle implements Serializable{
 	public Long id;
 	
 	
-	@NotEmpty
+	
 	public String detalle;
-	@NotEmpty
+	
 	public String pedido;
 	
 	public String opinionArea;

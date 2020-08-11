@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -34,6 +36,10 @@ public class Cliente implements Serializable{
 	
 	@NotEmpty
 	public String apellido;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_tipodocumento")
+	public TipoDocumento tipoDocumento;
 	
 	@NotEmpty
 	public String numdoc;
@@ -164,7 +170,19 @@ public class Cliente implements Serializable{
 	}
 	
 	
-	
+	public String getNombreYApellido() {
+		return nombre + " " + apellido ;
+	}
+
+
+	public TipoDocumento getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+
+	public void setTipoDocumento(TipoDocumento tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
 	
 	
 	

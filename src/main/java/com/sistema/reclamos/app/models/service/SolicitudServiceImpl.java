@@ -29,8 +29,10 @@ public class SolicitudServiceImpl implements ISolicitudService{
 	@Override
 	@Transactional
 	public void save(Solicitud solicitud) {
-		solicitudDao.save(solicitud);
 		
+		solicitud.detalle.solicitud = solicitud;
+		
+		solicitudDao.save(solicitud);
 	}
 
 	@Override
@@ -51,5 +53,7 @@ public class SolicitudServiceImpl implements ISolicitudService{
 		
 		return solicitudDao.findAll(pageable);
 	}
+
+
 
 }

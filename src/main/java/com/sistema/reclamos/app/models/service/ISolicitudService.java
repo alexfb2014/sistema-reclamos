@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-
 import com.sistema.reclamos.app.models.entity.Solicitud;
 
 public interface ISolicitudService {
@@ -23,6 +22,7 @@ public interface ISolicitudService {
 	
 	
 	public void delete(Long id);
+	
 	
 	
 }

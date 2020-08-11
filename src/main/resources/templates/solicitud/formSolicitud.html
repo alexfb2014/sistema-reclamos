@@ -13,50 +13,103 @@
 			<div class="card-header" th:text="${titulo}"></div>
 			<div class="card-body">
 
-
-
-				<form th:action="@{/solicitud/formSolicitud}" th:object="${solicitud}"
-					method="post" enctype="multipart/form-data">
-
-
+				<form th:action="@{/solicitud/formSolicitud}"
+					th:object="${solicitud}" method="post"
+					enctype="multipart/form-data">
 
 					<div class="form-group row">
-						<label for="producto" class="col-form-label col-sm-2">Producto o Servicio</label>
-						<div class="col-form-label col-sm-4">
-							<select id="producto" th:field="*{producto}" class="form-control">
-								<option value="">--Seleccionar Producto--</option>
-								<option th:each="producto: ${listaProductos}" th:text="${producto.detalle}"
-									th:value="${producto.id}"></option>
-							</select>
+
+						<label class="col-sm-2 col-form-label">Cliente</label>
+						<div class="col-sm-7">
+							<input type="text" th:value="*{cliente.nombreYApellido}"
+								class="form-control" disabled/>
 						</div>
-						<div th:if="${#fields.hasErrors('producto')}" th:errors="*{producto}"
-							class="alert alert-danger"></div>
 					</div>
 
 					<div class="form-group row">
-				<label for="servicio" class="col-form-label col-sm-2">Motivo</label>
-				<div class="col-form-label col-sm-4">
-					<select id="motivo" th:field="*{motivo}" class="form-control">
-						<option value="">--Seleccionar Motivo--</option>
-						<option th:each="motivo: ${listaMotivos}" th:text="${motivo.detalle}"
-							th:value="${motivo.id}"></option>
-					</select>
-				</div>
-				<div th:if="${#fields.hasErrors('motivo')}" th:errors="*{motivo}"
-					class="alert alert-danger"></div>
-			</div>
+
+						<label class="col-sm-2 col-form-label">Documento</label>
+						<div class="col-sm-3">
+							<input type="text"
+								th:value="*{cliente.tipoDocumento.descripcion + '/' + cliente.numdoc}"
+								class="form-control" disabled />
+						</div>
+
+					</div>
+
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Telefono</label>
+						<div class="col-sm-3">
+							<input type="number" th:value="*{cliente.telefono}"
+								class="form-control" disabled />
+						</div>
+
+
+						<label class="col-sm-1 col-form-label">Email</label>
+						<div class="col-sm-3">
+							<input type="email" th:value="*{cliente.email}"
+								class="form-control" disabled />
+						</div>
+
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Direccion</label>
+						<div class="col-sm-7">
+							<input type="text" th:value="*{cliente.direccion}"
+								class="form-control" disabled />
+						</div>
+					</div>
 					
+					<div class="form-group row">
+						<label for="producto" class="col-form-label col-sm-2">ID CLiente</label>
+						<div class="col-form-label col-sm-4">
+							<input th:field="*{cliente.id}" class="form-control"
+								th:errorclass="'form-control alert-danger'" disabled />
+						</div>
+						<div th:if="${#fields.hasErrors('cliente')}"
+							th:errors="*{cliente}" class="alert alert1 alert-danger"></div>
+					</div>
+					
+					
+					<div class="form-group row">
+						<label for="producto" class="col-form-label col-sm-2">Producto
+							o Servicio</label>
+						<div class="col-form-label col-sm-4">
+							<select id="producto" th:field="*{producto}" class="form-control">
+								<option value="">--Seleccionar Producto--</option>
+								<option th:each="producto: ${listaProductos}"
+									th:text="${producto.detalle}" th:value="${producto.id}"></option>
+							</select>
+						</div>
+						<div th:if="${#fields.hasErrors('producto')}"
+							th:errors="*{producto}" class="alert alert1 alert-danger"></div>
+					</div>
+
+					<div class="form-group row">
+						<label for="servicio" class="col-form-label col-sm-2">Motivo</label>
+						<div class="col-form-label col-sm-4">
+							<select id="motivo" th:field="*{motivo}" class="form-control">
+								<option value="">--Seleccionar Motivo--</option>
+								<option th:each="motivo: ${listaMotivos}"
+									th:text="${motivo.detalle}" th:value="${motivo.id}"></option>
+							</select>
+						</div>
+						
+					</div>
+
 					<div class="form-group row">
 						<label class="col-form-label col-sm-2">Medio de
 							Notificacion</label>
 						<div th:each="notif: ${notificacion}" class="row col-sm-2">
-							<input type="radio" th:field="*{notificacion}" th:value="${notif}"
-								class="form-control col-sm-1"> <label
+							<input type="radio" th:field="*{notificacion}"
+								th:value="${notif}" class="form-control col-sm-1"> <label
 								th:for="${#ids.prev('notificacion')}" th:text="${notif}"
 								class="col-form-label col-sm-8"></label>
 						</div>
-						<div th:if="${#fields.hasErrors('notificacion')}" th:errors="*{notificacion}"
-							class="alert alert-danger"></div>
+						<div th:if="${#fields.hasErrors('notificacion')}"
+							th:errors="*{notificacion}" class="alert alert1 alert-danger"></div>
 					</div>
 
 
@@ -64,28 +117,35 @@
 
 						<label class="col-sm-2 col-form-label">Detalle</label>
 						<div class="col-sm-6">
-								<textarea  th:field="*{detalle.detalle}" class="form-control"
-								th:errorclass="'form-control alert-danger'" placeholder="Ingrese el detalle de su reclamo"> </textarea>
-								 <small
-								class="form-text text-danger"
-								th:if="${#fields.hasErrors('detalle.detalle')}" th:errors="*{detalle.detalle}"></small>
+							<textarea  th:field="*{detalle.detalle}" class="form-control"
+								th:errorclass="'form-control alert-danger'"
+								placeholder="Ingrese el detalle de su reclamo" required> </textarea>
+							<div th:if="${#fields.hasErrors('detalle.detalle')}"
+							th:errors="*{detalle.detalle}" class="alert alert1 alert-danger" ></div>
 						</div>
 
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">Pedido</label>
 						<div class="col-sm-6">
-							
-								<textarea th:field="*{detalle.pedido}" class="form-control"
-								th:errorclass="'form-control alert-danger'" placeholder="Ingrese el pedido de su reclamo"> </textarea>
-								
-								<small
-								class="form-text text-danger"
-								th:if="${#fields.hasErrors('detalle.pedido')}" th:errors="*{detalle.pedido}"></small>
+
+							<textarea  th:field="*{detalle.pedido}" class="form-control"
+								th:errorclass="'form-control alert-danger'"
+								placeholder="Ingrese el pedido de su reclamo" required> </textarea>
+
+							<div th:if="${#fields.hasErrors('detalle.pedido')}"
+							th:errors="*{detalle.pedido}" class="alert alert1 alert-danger"></div>
 						</div>
 					</div>
 
+					<div class="form-group row">
+						<label for="archivo" class="col-sm-2 col-form-label">Archivo</label>
 
+						<div class="col-sm-6">
+							<input type="file" name="archivo" class="form-control" />
+						</div>
+
+					</div>
 
 					<div class="form-group row">
 

@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org.">
 <head th:replace="/layout/layout :: head">
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		setTimeout(function() {
+			$(".alert1").fadeOut(1500);
+		}, 3000);
+
+		setTimeout(function() {
+			$(".content2").fadeIn(1500);
+		}, 6000);
+	});
+</script>
+
+
 </head>
 <body>
 
 	
 
 	<div class="container py-4 col-sm-4">
+	
+	
+
+		<div class="alert alert1 alert-danger alert-dismissible fade show"
+			role="alert" th:if="${error != null}">
+			<p class="mb-0" th:text="${error}"></p>
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+	
 		<div class="card border-primary text-center">
 			<div class="card-header" th:text="'Inicio de Sesion'"></div>
 

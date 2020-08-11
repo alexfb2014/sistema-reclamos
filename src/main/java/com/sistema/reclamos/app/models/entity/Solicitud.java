@@ -12,8 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "solicitudes")
@@ -40,8 +45,12 @@ public class Solicitud implements Serializable{
 	@NotEmpty
 	public String notificacion;
 
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date fechaRegistro;
 
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date fechaRespuesta;
 
 	public String estado;
@@ -59,6 +68,14 @@ public class Solicitud implements Serializable{
 
 	}
 
+	
+	@PrePersist
+	  protected void onCreate() {
+	    fechaRegistro = new Date();
+	    estado = "registrado";
+	    estadoEvalua= "registrado";
+	  }
+	
 	public Long getId() {
 		return id;
 	}

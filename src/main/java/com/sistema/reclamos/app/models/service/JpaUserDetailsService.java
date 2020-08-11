@@ -22,7 +22,7 @@ import com.sistema.reclamos.app.models.entity.Usuario;
 
 
 @Service("JpaUserDetailsService")
-public class JpaUserDetailsService implements UserDetailsService {
+public class JpaUserDetailsService implements UserDetailsService,IUsuarioService {
 
 	@Autowired
 	private IUsuarioDao usuarioDao;
@@ -59,21 +59,27 @@ public class JpaUserDetailsService implements UserDetailsService {
 		return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnabled(),true, true, true, authorities);
 	}
 
-	
-	@Transactional(readOnly = true)
-	public Usuario ObtenerUsuario(String username) throws UsernameNotFoundException {
-		
-		
-			logger.info("El usuario que llega es "+ username);
 
-		Usuario usuario = usuarioDao.findByUsername(username);
-		if (usuario == null) {
-			logger.error("Error Login: no existe el usuario '"+username +"'");
-			throw new UsernameNotFoundException("Username '"+username + "no existe en el sistema");
-			
-		}
+	@Override
+	public void save(Usuario usuario) {
+
+		usuarioDao.save(usuario);
 		
-		return usuario;
+	}
+
+
+	@Override
+	public Usuario findOne(Long id) {
+		
+		return usuarioDao.findById(id).orElse(null);
+	}
+
+
+	@Override
+	public Usuario findByUsername(String username) {
+		
+		return usuarioDao.findByUsername(username);
+		
 	}
 	
 	
