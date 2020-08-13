@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org."
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/layout/layout :: head">
+</head>
+<body>
+
+	<header th:replace="/layout/layout :: header"> </header>
+
+	<div class="container py-4">
+
+		<div class="card">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+
+
+				<form th:action="@{/solicitud/formSolicitud}" th:object="${solicitud}"
+					method="post" enctype="multipart/form-data">
+
+
+
+					<div class="form-group row">
+						<label for="producto" class="col-form-label col-sm-2">Producto o Servicio</label>
+						<div class="col-form-label col-sm-4">
+							<select id="producto" th:field="*{producto}" class="form-control">
+								<option value="">--Seleccionar Producto--</option>
+								<option th:each="producto: ${listaProductos}" th:text="${producto.detalle}"
+									th:value="${producto.id}"></option>
+							</select>
+						</div>
+						<div th:if="${#fields.hasErrors('producto')}" th:errors="*{producto}"
+							class="alert alert-danger"></div>
+					</div>
+
+					<div class="form-group row">
+				<label for="servicio" class="col-form-label col-sm-2">Motivo</label>
+				<div class="col-form-label col-sm-4">
+					<select id="motivo" th:field="*{motivo}" class="form-control">
+						<option value="">--Seleccionar Motivo--</option>
+						<option th:each="motivo: ${listaMotivos}" th:text="${motivo.detalle}"
+							th:value="${motivo.id}"></option>
+					</select>
+				</div>
+				<div th:if="${#fields.hasErrors('motivo')}" th:errors="*{motivo}"
+					class="alert alert-danger"></div>
+			</div>
+					
+					<div class="form-group row">
+						<label class="col-form-label col-sm-2">Medio de
+							Notificacion</label>
+						<div th:each="notif: ${notificacion}" class="row col-sm-2">
+							<input type="radio" th:field="*{notificacion}" th:value="${notif}"
+								class="form-control col-sm-1"> <label
+								th:for="${#ids.prev('notificacion')}" th:text="${notif}"
+								class="col-form-label col-sm-8"></label>
+						</div>
+						<div th:if="${#fields.hasErrors('notificacion')}" th:errors="*{notificacion}"
+							class="alert alert-danger"></div>
+					</div>
+
+
+					<div class="form-group row">
+
+						<label class="col-sm-2 col-form-label">Detalle</label>
+						<div class="col-sm-6">
+								<textarea  th:field="*{detalle.detalle}" class="form-control"
+								th:errorclass="'form-control alert-danger'" placeholder="Ingrese el detalle de su reclamo"> </textarea>
+								 <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('detalle.detalle')}" th:errors="*{detalle.detalle}"></small>
+						</div>
+
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Pedido</label>
+						<div class="col-sm-6">
+							
+								<textarea th:field="*{detalle.pedido}" class="form-control"
+								th:errorclass="'form-control alert-danger'" placeholder="Ingrese el pedido de su reclamo"> </textarea>
+								
+								<small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('detalle.pedido')}" th:errors="*{detalle.pedido}"></small>
+						</div>
+					</div>
+
+
+
+					<div class="form-group row">
+
+						<div class="col-sm-6">
+							<input type="submit" id="btnguardar" value="Guardar"
+								class="btn btn-primary" />
+						</div>
+					</div>
+
+
+
+					<!-- 			<input type="hidden" th:field="*{id}" /> -->
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="/layout/layout :: footer"> </footer>
+
+</body>
+</html>

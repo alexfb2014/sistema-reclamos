@@ -26,20 +26,20 @@
 <body>
 
 	<header th:fragment="header">
-		<nav class="navbar navbar-expand-lg navbar-light "
-			style="background-color: #E8E8E8;">
-			 <img
-				th:src="@{/images/logos.png}" width="80" height="30" />
-			
-			<!--  <button class="navbar-toggler" type="button" data-toggle="collapse"
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="#">Reclamos 2020</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
-			</button>-->
+			</button>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
 				<ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
+
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -47,8 +47,9 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item btn-outline-primary"
 								th:href="@{/solicitud/formSolicitud}">Nueva solicitud</a> <a
-								class="dropdown-item btn-outline-primary"
-								th:href="@{/solicitud/misSolicitudes}">Mis Solicitudes</a>
+								class="dropdown-item btn-outline-primary" href="#">Ver
+								Solicitud</a>
+
 						</div></li>
 
 					<li class="nav-item dropdown"><a
@@ -57,6 +58,7 @@
 						aria-expanded="false"> Mantenimiento </a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" th:href="@{/clientes/listar}">Clientes</a>
+
 						</div></li>
 
 					<li class="nav-item dropdown"><a
@@ -66,14 +68,15 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="#">Clientes</a> <a
 								class="dropdown-item" href="#">Reclamos</a>
+
 						</div></li>
+
 				</ul>
 
 
 				<ul class="nav navbar-right">
-					<li class="nav-item "><a class="nav-link active"
-						th:href="@{/solicitud/listarBandeja}" style="color: #000000">
-						<i	class="fa fa-envelope" aria-hidden="true"></i>Bandeja</a></li>
+					<li class="nav-item"><a class="nav-link active" th:href="@{/solicitud/listarBandeja}"><i
+							class="fa fa-envelope" aria-hidden="true"></i>Bandeja</a></li>
 					<li class="nav-item" sec:authorize="isAuthenticated()"><a
 						class="nav-link" href="#"><i class="fa fa-user"
 							aria-hidden="true"></i> <span sec:authentication="name"></span></a></li>
@@ -94,7 +97,7 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li sec:authorize="!isAuthenticated()"><a
-						class="btn btn-outline-dark btn-sm" th:href="@{/login}">Iniciar
+						class="btn btn-outline-primary" th:href="@{/login}">Iniciar
 							Sesion</a></li>
 
 
@@ -141,14 +144,13 @@
 		</div>
 	</header>
 
-	
-	<div class="container">	</div>
+	<div class="container"></div>
 
 	<footer th:fragment="footer" class="container">
 
 		<div class="footer-copyright text-center py-3">
 
-			© 2020 Copyright: <a href="">Sistema RQS - CMAC</a>
+			© 2020 Copyright: <a href="">Sistema Reclamos</a>
 		</div>
 		<!-- Copyright -->
 
