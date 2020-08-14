@@ -5,7 +5,7 @@
 
 <nav th:fragment="paginator">
 
-<ul class="pagination">
+<ul class="pagination justify-content-end">
 <li th:class="${page.first? 'page-item disabled' : 'page-item'}">
 <span class="page-link" th:if="${page.first}">Primera</span>
 <a class="page-link" th:if="${not page.first}" th:href="@{${page.url}(page=0)}">Primera</a>

@@ -20,3 +20,28 @@
   opacity:1;
   pointer-events:auto;
 }
+
+.navbar-light {
+	 background-color: #E8E8E8;
+}
+
+.navbar-light .navbar-nav .nav-link {
+color: #000000;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+color: #283747;
+}
+
+.navbar-light .navbar-right .nav-link{
+color: #000000;
+}
+
+.navbar-light .navbar-right .nav-link:hover {
+color: #283747;
+}
+
+.navbar-light .navbar-nav .dropdown-menu{
+	 background-color: #F4F6F7;
+}
+

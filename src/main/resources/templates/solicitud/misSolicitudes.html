@@ -6,50 +6,57 @@
 <body>
 
 	<header th:replace="/layout/layout :: header"> </header>
+	<div class="card">
+		<img th:src="@{/images/fondo.png}" class="img-fluid" />
+		<div class="card-img-overlay">
+			<div class="container py-4">
 
-	<div class="container py-4">
+				<div class="card bg-ligth">
+					<div class="card-header font-italic">
+						<h5>Mis Solicitudes</h5>
+					</div>
+					<div class="card-body">
+						<div class="alert alert-info "
+							th:if="${#lists.isEmpty(solicitudes)}"
+							th:text="'No tiene solicitudes registradas'"></div>
+						<table class="table table-striped"
+							th:if="${not #lists.isEmpty(solicitudes)}">
 
-		<div class="card bg-ligth">
-			<div class="card-header font-italic">
-			<h2>Mis Solicitudes</h2>
+							<thead class="thead-inverse">
+								<tr>
+									<th>Id</th>
+									<th>Tipo Solicitud</th>
+									<th>Fecha Registro</th>
+									<th>Notificacion</th>
+									<th>Motivo</th>
+									<th>Estado</th>
+									<th>Opciones</th>
+
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr th:each="solicitud: ${solicitudes}">
+
+									<td th:text="${solicitud.id}"></td>
+									<td>*TipoSolicitud*</td>
+									<td th:text="${solicitud.fechaRegistro}"></td>
+									<td th:text="${solicitud.notificacion}"></td>
+									<td th:text="${solicitud.motivo.detalle}"></td>
+									<td th:text="${solicitud.estado}"></td>
+								</tr>
+
+							</tbody>
+
+						</table>
+
+					</div>
+				</div>
 			</div>
-			<div class="card-body">
-				<div class="alert alert-info " th:if="${#lists.isEmpty(solicitudes)}" th:text="'No tiene solicitudes registradas'"></div>
-				<table class="table table-striped" th:if="${not #lists.isEmpty(solicitudes)}">
 
-					<thead class="thead-inverse">
-						<tr>
-							<th>Id</th>
-							<th>Tipo Solicitud</th>
-							<th>Fecha Registro</th>
-							<th>Notificacion</th>
-							<th>Motivo</th>
-							<th>Estado</th>
-							<th>Opciones</th>
-
-						</tr>
-					</thead>
-
-					<tbody>
-						<tr th:each="solicitud: ${solicitudes}">
-							
-							<td th:text="${solicitud.id}"></td>
-							<td>*TipoSolicitud*</td>
-							<td th:text="${solicitud.fechaRegistro}"></td>
-							<td th:text="${solicitud.notificacion}"></td>
-							<td th:text="${solicitud.motivo.detalle}"></td>
-							<td th:text="${solicitud.estado}"></td>
-						</tr>
-
-					</tbody>
-
-				</table>
-				
-			</div>
 		</div>
 	</div>
-	
-	
+
 
 	<footer th:replace="/layout/layout :: footer"> </footer>
 
