@@ -38,7 +38,27 @@
 							<td th:text="${solicitud.fechaRegistro}"></td>
 							<td th:text="${solicitud.notificacion}"></td>
 							<td th:text="${solicitud.motivo.detalle}"></td>
-							<td th:text="${solicitud.estado}"></td>
+							<td th:text="${solicitud.estado.descripcion}"></td>
+							
+							<td>
+
+								<div class="dropdown">
+									<button class="btn btn-secondary dropdown-toggle" type="button"
+										id="dropdownMenuButton" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false"></button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item" href="#"
+											><i
+											class="fa fa-search" aria-hidden="true"></i> Ver</a> <a
+											class="dropdown-item"
+											href="#"><i
+											class="fa fa-download" aria-hidden="true"></i> Imprimir</a>
+									</div>
+								</div>
+
+							</td>
+							
+							
 						</tr>
 
 					</tbody>

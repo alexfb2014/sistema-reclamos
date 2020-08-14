@@ -16,6 +16,15 @@ INSERT INTO tipodocumento(id, descripcion,longitud) VALUES(1, 'DNI',8);
 INSERT INTO tipodocumento(id, descripcion,longitud) VALUES(2, 'CE',8);
 INSERT INTO tipodocumento(id, descripcion,longitud) VALUES(3, 'RUC',11);
 
+INSERT INTO estados(id, descripcion,detalle,rol) VALUES(1, 'registrado','Indica que la solicitud ha sido registrada por el cliente','cliente y entidad');
+INSERT INTO estados(id, descripcion,detalle,rol) VALUES(2, 'evaluacion','Indica que la solicitud ha sido leida por Atencion al usuario y sera evaluada dentro de la entidad','cliente');
+INSERT INTO estados(id, descripcion,detalle,rol) VALUES(3, 'finalizado','Indica que la entidad ha finalizado la solicitud y que se ha dado una respuesta','cliente y entidad');
+INSERT INTO estados(id, descripcion,detalle,rol) VALUES(4, 'enviado','Indica que atencion al usuario envio la solicitud a un area competente para que dè su opinion','entidad');
+INSERT INTO estados(id, descripcion,detalle,rol) VALUES(5, 'devuelto','Indica que area competente devuelve la solicitud a Atencion al usuario con su opinion','entidad');
+
+
+
+
 INSERT INTO clientes(id,nombre,apellido,id_tipodocumento,numdoc,email,telefono,direccion) VALUES(1,'Alex','Fernandez',1,'9522452','alexafb_12@hotmail.com','967187791','Piura');
 INSERT INTO clientes(id,nombre,apellido,id_tipodocumento,numdoc,email,telefono,direccion) VALUES(2,'Danika','Martinez',1,'9466652','Danika@hotmail.com','967187791','Piura');
 INSERT INTO clientes(id,nombre,apellido,id_tipodocumento,numdoc,email,telefono,direccion) VALUES(3,'Jon Jairo','Arias',1,'56555585','alexafb_12@hotmail.com','967187791','Piura');

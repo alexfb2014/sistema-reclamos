@@ -14,7 +14,7 @@
 			<h2>Bandeja de entrada</h2>
 			</div>
 			<div class="card-body">
-				<div class="alert alert-info " th:if="${#lists.isEmpty(solicitudes)}" th:text="'No hay solicitudes disponibles'"></div>
+				<div class="alert alert-info " th:if="${#lists.isEmpty(solicitudes)}" th:text="'No tiene solicitudes registradas'"></div>
 				<table class="table table-striped" th:if="${not #lists.isEmpty(solicitudes)}">
 
 					<thead class="thead-inverse">
@@ -23,7 +23,9 @@
 							<th>Tipo Solicitud</th>
 							<th>Cliente</th>
 							<th>Fecha Registro</th>
+							<th>Notificacion</th>
 							<th>Motivo</th>
+							<th>Estado</th>
 							<th>Opciones</th>
 
 						</tr>
@@ -33,10 +35,25 @@
 						<tr th:each="solicitud: ${solicitudes}">
 							
 							<td th:text="${solicitud.id}"></td>
-						
+							<td>*TipoSolicitud*</td>
+							<td th:text="${solicitud.cliente.nombreYApellido}"></td>
+							<td th:text="${solicitud.fechaRegistro}"></td>
+							<td th:text="${solicitud.notificacion}"></td>
+							<td th:text="${solicitud.motivo.detalle}"></td>
+							<td th:text="${solicitud.estado.descripcion}"></td>
+							
 							<td>
 
-								
+								<div class="dropdown">
+									<button class="btn btn-secondary dropdown-toggle" type="button"
+										id="dropdownMenuButton" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false"></button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item" href="#"
+											><i
+											class="fa fa-search" aria-hidden="true"></i> Ingresar</a> 
+									</div>
+								</div>
 
 							</td>
 

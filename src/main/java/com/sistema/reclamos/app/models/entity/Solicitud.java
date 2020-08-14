@@ -53,9 +53,13 @@ public class Solicitud implements Serializable{
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date fechaRespuesta;
 
-	public String estado;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_estado")
+	public Estado estado;
 
-	public String estadoEvalua;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_estadoEvalu")
+	public Estado estadoEvalua;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_cliente")
@@ -72,8 +76,7 @@ public class Solicitud implements Serializable{
 	@PrePersist
 	  protected void onCreate() {
 	    fechaRegistro = new Date();
-	    estado = "registrado";
-	    estadoEvalua= "registrado";
+	   
 	  }
 	
 	public Long getId() {
@@ -93,6 +96,11 @@ public class Solicitud implements Serializable{
 	}
 
 	
+
+	public Estado getEstado() {
+		return estado;
+	}
+
 
 	public Motivo getMotivo() {
 		return motivo;
@@ -134,14 +142,6 @@ public class Solicitud implements Serializable{
 		this.fechaRespuesta = fechaRespuesta;
 	}
 
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
 	public Motivo getTipoSolicitud() {
 		return tipoSolicitud;
 	}
@@ -150,13 +150,22 @@ public class Solicitud implements Serializable{
 		this.tipoSolicitud = tipoSolicitud;
 	}
 
-	public String getEstadoEvalua() {
+	
+
+	public Estado getEstadoEvalua() {
 		return estadoEvalua;
 	}
 
-	public void setEstadoEvalua(String estadoEvalua) {
+
+	public void setEstadoEvalua(Estado estadoEvalua) {
 		this.estadoEvalua = estadoEvalua;
 	}
+
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
+
 
 	public Detalle getDetalle() {
 		return detalle;
