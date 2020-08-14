@@ -22,64 +22,6 @@
 						<table class="table table-striped"
 							th:if="${not #lists.isEmpty(solicitudes)}">
 
-<<<<<<< HEAD
-		<div class="card bg-ligth">
-			<div class="card-header font-italic">
-			<h2>Mis Solicitudes</h2>
-			</div>
-			<div class="card-body">
-				<div class="alert alert-info " th:if="${#lists.isEmpty(solicitudes)}" th:text="'No tiene solicitudes registradas'"></div>
-				<table class="table table-striped" th:if="${not #lists.isEmpty(solicitudes)}">
-
-					<thead class="thead-inverse">
-						<tr>
-							<th>Id</th>
-							<th>Tipo Solicitud</th>
-							<th>Fecha Registro</th>
-							<th>Notificacion</th>
-							<th>Motivo</th>
-							<th>Estado</th>
-							<th>Opciones</th>
-
-						</tr>
-					</thead>
-
-					<tbody>
-						<tr th:each="solicitud: ${solicitudes}">
-							
-							<td th:text="${solicitud.id}"></td>
-							<td>*TipoSolicitud*</td>
-							<td th:text="${solicitud.fechaRegistro}"></td>
-							<td th:text="${solicitud.notificacion}"></td>
-							<td th:text="${solicitud.motivo.detalle}"></td>
-							<td th:text="${solicitud.estado.descripcion}"></td>
-							
-							<td>
-
-								<div class="dropdown">
-									<button class="btn btn-secondary dropdown-toggle" type="button"
-										id="dropdownMenuButton" data-toggle="dropdown"
-										aria-haspopup="true" aria-expanded="false"></button>
-									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item" href="#"
-											><i
-											class="fa fa-search" aria-hidden="true"></i> Ver</a> <a
-											class="dropdown-item"
-											href="#"><i
-											class="fa fa-download" aria-hidden="true"></i> Imprimir</a>
-									</div>
-								</div>
-
-							</td>
-							
-							
-						</tr>
-
-					</tbody>
-
-				</table>
-				
-=======
 							<thead class="thead-inverse">
 								<tr>
 									<th>Id</th>
@@ -101,7 +43,24 @@
 									<td th:text="${solicitud.fechaRegistro}"></td>
 									<td th:text="${solicitud.notificacion}"></td>
 									<td th:text="${solicitud.motivo.detalle}"></td>
-									<td th:text="${solicitud.estado}"></td>
+									<td th:text="${solicitud.estado.descripcion}"></td>
+									<td>
+
+								<div class="dropdown">
+									<button class="btn btn-secondary dropdown-toggle" type="button"
+										id="dropdownMenuButton" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false"></button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item" href="#"
+											><i
+											class="fa fa-search" aria-hidden="true"></i> Ver</a> <a
+											class="dropdown-item"
+											href="#"><i
+											class="fa fa-download" aria-hidden="true"></i> Imprimir</a>
+									</div>
+								</div>
+
+							</td>
 								</tr>
 
 							</tbody>
@@ -110,7 +69,6 @@
 
 					</div>
 				</div>
->>>>>>> d4bf23a2f65acdcf2dbe238673a523bd7bc924f9
 			</div>
 
 		</div>
