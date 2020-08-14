@@ -6,9 +6,23 @@
 <body>
 
 	<header th:replace="/layout/layout :: header"> </header>
+	<div class="card">
+		<img th:src="@{/images/fondo.png}" class="img-fluid" />
+		<div class="card-img-overlay">
+			<div class="container py-4">
 
-	<div class="container py-4">
+				<div class="card bg-ligth">
+					<div class="card-header font-italic">
+						<h5>Bandeja de entrada</h5>
+					</div>
+					<div class="card-body">
+						<div class="alert alert-info "
+							th:if="${#lists.isEmpty(solicitudes)}"
+							th:text="'No hay solicitudes disponibles'"></div>
+						<table class="table table-striped"
+							th:if="${not #lists.isEmpty(solicitudes)}">
 
+<<<<<<< HEAD
 		<div class="card bg-ligth">
 			<div class="card-header font-italic">
 			<h2>Bandeja de entrada</h2>
@@ -27,10 +41,21 @@
 							<th>Motivo</th>
 							<th>Estado</th>
 							<th>Opciones</th>
+=======
+							<thead class="thead-inverse">
+								<tr>
+									<th>Id</th>
+									<th>Tipo Solicitud</th>
+									<th>Cliente</th>
+									<th>Fecha Registro</th>
+									<th>Motivo</th>
+									<th>Opciones</th>
+>>>>>>> d4bf23a2f65acdcf2dbe238673a523bd7bc924f9
 
-						</tr>
-					</thead>
+								</tr>
+							</thead>
 
+<<<<<<< HEAD
 					<tbody>
 						<tr th:each="solicitud: ${solicitudes}">
 							
@@ -54,22 +79,29 @@
 											class="fa fa-search" aria-hidden="true"></i> Ingresar</a> 
 									</div>
 								</div>
+=======
+							<tbody>
+								<tr th:each="solicitud: ${solicitudes}">
 
-							</td>
+									<td th:text="${solicitud.id}"></td>
+>>>>>>> d4bf23a2f65acdcf2dbe238673a523bd7bc924f9
+
+									<td></td>
 
 
 
-						</tr>
+								</tr>
 
-					</tbody>
+							</tbody>
 
-				</table>
-				<nav th:replace="paginator-nav :: paginator"></nav>
+						</table>
+						<nav th:replace="paginator-nav :: paginator"></nav>
+					</div>
+				</div>
 			</div>
+
 		</div>
 	</div>
-	
-	
 
 	<footer th:replace="/layout/layout :: footer"> </footer>
 
