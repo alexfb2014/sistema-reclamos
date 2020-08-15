@@ -2,6 +2,7 @@ package com.sistema.reclamos.app.controllers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +15,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -127,16 +132,30 @@ public class SolicitudController {
 	}
 
 	@GetMapping(value = { "/listarBandeja" })
-	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model, Authentication aut) {
 
 		Pageable pageRequest = PageRequest.of(page, 5);
-		Page<Solicitud> solicitudes = solicitudService.findAll(pageRequest);
+		Page<Solicitud> solicitudes = null;
+		if (hasRole("ROLE_AREA")) {
+			solicitudes = solicitudService.ListarEnviadas(pageRequest);
+		}else
+			if (hasRole("ROLE_ATENCION")) {
+				
+			solicitudes = solicitudService.ListarRegistradasYDevueltas(pageRequest);
+			} else {
+				solicitudes = solicitudService.findAll(pageRequest);
+			}
+		String indicador="1";
+		if (solicitudes.isEmpty()) {
+			indicador = "0";
+		}
+		log.info("Se obtuvieron:" + solicitudes.getSize() + " solicitudes del pageRequest");
 
 		PageRender<Solicitud> pageRender = new PageRender<>("/solicitud/bandeja", solicitudes);
-		
+
 		model.addAttribute("solicitudes", solicitudes);
 		model.addAttribute("page", pageRender);
-
+		model.addAttribute("indicador", indicador);
 		return "solicitud/bandeja";
 
 	}
@@ -156,4 +175,194 @@ public class SolicitudController {
 
 	}
 
+	@GetMapping(value = "/mostrarParaAtencion/{id}")
+	public String verAtencion(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+
+		Solicitud solicitud = solicitudService.findOne(id);
+
+		model.put("cliente", solicitud.getCliente());
+		model.put("solicitud", solicitud);
+		model.put("titulo", "Datos de Solicitud");
+
+		return "solicitud/mostrarSolicitudParaAtencion";
+	}
+
+	@GetMapping(value = "/mostrarParaArea/{id}")
+	public String verArea(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+
+		Solicitud solicitud = solicitudService.findOne(id);
+
+		model.put("cliente", solicitud.getCliente());
+		model.put("solicitud", solicitud);
+		model.put("titulo", "Datos de Solicitud");
+
+		return "solicitud/mostrarSolicitudParaArea";
+	}
+	
+	
+	@PostMapping("/finalizar")
+	public String accion(@Valid Solicitud solicitud, BindingResult result, Map<String, Object> model,
+			RedirectAttributes flash, SessionStatus status) {
+
+		String mensaje = "";
+
+		if (result.hasErrors()) {
+			model.put("cliente", solicitud.getCliente());
+			model.put("solicitud", solicitud);
+			model.put("titulo", "Datos de Solicitud");
+
+			return "solicitud/mostrarSolicitudParaAtencion";
+		}
+
+		if (solicitud.detalle.respuesta == null || solicitud.detalle.respuesta == ""
+				|| solicitud.detalle.respuesta.length() <= 0) {
+
+			flash.addFlashAttribute("error", "Ingresar respuesta para finalizar la solicitud");
+			return "redirect:mostrarParaAtencion/"+solicitud.id;
+		} else {
+
+			if (solicitud.detalle.respuesta != null || solicitud.detalle.respuesta.length() > 0) {
+				solicitud.setEstado(estadoService.findByDescripcion("finalizado"));
+				solicitud.setEstadoEvalua(estadoService.findByDescripcion("finalizado"));
+				mensaje = "Solicitud finalizada correctamente";
+			} else {
+				log.info("No se encontro flujo de decision");
+			}
+
+		}
+
+		solicitudService.save(solicitud);
+		status.setComplete();
+		flash.addFlashAttribute("success", mensaje);
+		return "redirect:listarBandeja";
+	}
+
+	@PostMapping("/opinionArea")
+	public String responder(@Valid Solicitud solicitud, BindingResult result, Map<String, Object> model,
+			RedirectAttributes flash, SessionStatus status) {
+
+		String mensaje = "";
+
+		if (result.hasErrors()) {
+			model.put("cliente", solicitud.getCliente());
+			model.put("solicitud", solicitud);
+			model.put("titulo", "Datos de Solicitud");
+
+			return "solicitud/mostrar";
+		}
+
+		
+			if (solicitud.detalle.respuesta != null || solicitud.detalle.opinionArea.length() > 0) {
+				
+				solicitud.setEstadoEvalua(estadoService.findByDescripcion("devuelto"));
+				mensaje = "Solicitud respondida correctamente";
+			}
+		
+
+			
+		solicitudService.save(solicitud);
+		status.setComplete();
+		flash.addFlashAttribute("success", mensaje);
+		return "redirect:listarBandeja";
+	}
+
+	
+	
+	
+	
+	@GetMapping(value = "/enviar/{id}")
+	public String enviar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash,
+			@RequestParam(name = "page", defaultValue = "0") int page) {
+
+		Solicitud solicitud = solicitudService.findOne(id);
+
+		if (solicitud != null) {
+			solicitud.setEstado(estadoService.findByDescripcion("evaluacion"));
+			solicitud.setEstadoEvalua(estadoService.findByDescripcion("enviado"));
+		}
+
+		solicitudService.save(solicitud);
+
+		Pageable pageRequest = PageRequest.of(page, 5);
+		Page<Solicitud> solicitudes = null;
+		if (hasRole("ROLE_AREA")) {
+			solicitudes = solicitudService.ListarEnviadas(pageRequest);
+		}else
+			if (hasRole("ROLE_ATENCION")) {
+				
+			solicitudes = solicitudService.ListarRegistradasYDevueltas(pageRequest);
+			} else {
+				solicitudes = solicitudService.findAll(pageRequest);
+			}
+		PageRender<Solicitud> pageRender = new PageRender<>("/solicitud/bandeja", solicitudes);
+		
+		String indicador="1";
+		if (solicitudes.isEmpty()) {
+			indicador = "0";
+		}	
+		
+		model.put("solicitudes", solicitudes);
+		model.put("page", pageRender);
+		model.put("indicador", indicador);
+		flash.addFlashAttribute("success", "Solicitud enviada correctamente");
+		return "solicitud/bandeja";
+	}
+
+	private boolean hasRole(String role) {
+
+		SecurityContext context = SecurityContextHolder.getContext();
+
+		if (context == null) {
+			return false;
+		}
+
+		Authentication auth = context.getAuthentication();
+
+		if (auth == null) {
+			return false;
+		}
+
+		Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+
+		for (GrantedAuthority authority : authorities) {
+
+			if (role.equals(authority.getAuthority())) {
+				log.info("Hola ".concat(auth.getName()).concat(" tu rol es: ".concat(authority.getAuthority())));
+				return true;
+			}
+
+		}
+		return false;
+
+	}
+
+	
+	private boolean hasRole(String role, String role1) {
+
+		SecurityContext context = SecurityContextHolder.getContext();
+
+		if (context == null) {
+			return false;
+		}
+
+		Authentication auth = context.getAuthentication();
+
+		if (auth == null) {
+			return false;
+		}
+
+		Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+
+		for (GrantedAuthority authority : authorities) {
+
+			if (role.equals(authority.getAuthority()) || role1.equals(authority.getAuthority())) {
+				log.info("Hola ".concat(auth.getName()).concat(" tu rol es: ".concat(authority.getAuthority())));
+				return true;
+			}
+
+		}
+		return false;
+
+	}
+	
 }

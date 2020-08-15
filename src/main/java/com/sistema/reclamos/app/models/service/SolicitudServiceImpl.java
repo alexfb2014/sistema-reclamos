@@ -8,7 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sistema.reclamos.app.models.dao.IEstadoDao;
 import com.sistema.reclamos.app.models.dao.ISolicitudDao;
+import com.sistema.reclamos.app.models.entity.Estado;
 import com.sistema.reclamos.app.models.entity.Solicitud;
 
 
@@ -17,6 +19,9 @@ public class SolicitudServiceImpl implements ISolicitudService{
 
 	@Autowired
 	ISolicitudDao solicitudDao;
+	
+	@Autowired
+	IEstadoDao estadoDao;
 	
 	
 	@Override
@@ -52,6 +57,24 @@ public class SolicitudServiceImpl implements ISolicitudService{
 	public Page<Solicitud> findAll(Pageable pageable) {
 		
 		return solicitudDao.findAll(pageable);
+	}
+
+	@Override
+	public Page<Solicitud> ListarRegistradasYDevueltas(Pageable pageable) {
+		
+		Estado registrado = estadoDao.findByDescripcion("registrado");
+		Estado devuelto = estadoDao.findByDescripcion("devuelto");
+		
+		
+		return solicitudDao.findByestadoEvaluaOrEstadoEvalua(registrado,devuelto,pageable);
+	}
+
+	@Override
+	public Page<Solicitud> ListarEnviadas(Pageable pageable) {
+		
+		Estado enviada = estadoDao.findByDescripcion("enviado");
+		
+		return solicitudDao.findByestadoEvalua(enviada, pageable);
 	}
 
 

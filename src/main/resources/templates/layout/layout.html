@@ -36,14 +36,18 @@
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false"> Solicitudes </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item btn-outline-primary"
-								th:href="@{/solicitud/formSolicitud}">Nueva solicitud</a> <a
+						<div sec:authorize="hasAnyRole('ROLE_CLIENTE','ROLE_ATENCION')" class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a sec:authorize="hasRole('ROLE_ATENCION')" class="dropdown-item btn-outline-primary"
+								href="#">Nueva solicitud - Atencion al cliente</a> 
+							
+							<a sec:authorize="hasRole('ROLE_CLIENTE')" class="dropdown-item btn-outline-primary"
+								th:href="@{/solicitud/formSolicitud}">Nueva solicitud</a> 
+								<a sec:authorize="hasRole('ROLE_CLIENTE')"
 								class="dropdown-item btn-outline-primary"
 								th:href="@{/solicitud/misSolicitudes}">Mis Solicitudes</a>
 						</div></li>
 
-					<li class="nav-item dropdown"><a
+					<li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_ATENCION')" class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false"> Mantenimiento </a>
@@ -51,7 +55,7 @@
 							<a class="dropdown-item" th:href="@{/clientes/listar}">Clientes</a>
 						</div></li>
 
-					<li class="nav-item dropdown"><a
+					<li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_ATENCION')" class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false">Reportes </a>
@@ -63,7 +67,7 @@
 
 
 				<ul class="nav navbar-right">
-					<li class="nav-item "><a class="nav-link active"
+					<li sec:authorize="hasAnyRole('ROLE_AREA','ROLE_ATENCION')" class="nav-item "><a class="nav-link active"
 						th:href="@{/solicitud/listarBandeja}"> <i
 							class="fa fa-envelope" aria-hidden="true"></i>Bandeja
 					</a></li>
@@ -105,7 +109,7 @@
 			</button>
 		</div>
 
-		<div class="alert alert-danger alert-dismissible fade show"
+		<div class="alert alert1 alert-danger alert-dismissible fade show"
 			role="alert" th:if="${error != null}">
 			<p class="mb-0" th:text="${error}"></p>
 			<button type="button" class="close" data-dismiss="alert"
@@ -114,7 +118,7 @@
 			</button>
 		</div>
 
-		<div class="alert alert-warning alert-dismissible fade show"
+		<div class="alert alert1 alert-warning alert-dismissible fade show"
 			role="alert" th:if="${warning != null}">
 
 			<p class="mb-0" th:text="${warning}"></p>
@@ -124,7 +128,7 @@
 			</button>
 		</div>
 
-		<div class="alert alert-info alert-dismissible fade show" role="alert"
+		<div class="alert alert1 alert-info alert-dismissible fade show" role="alert"
 			th:if="${info != null}">
 			<p class="mb-0" th:text="${info}"></p>
 			<button type="button" class="close" data-dismiss="alert"

@@ -14,13 +14,22 @@
 				<div class="card bg-ligth">
 					<div class="card-header font-italic">
 						<h5>Bandeja de entrada</h5>
+
+							<form class="form-inline" th:if="${indicador == '1'}">
+								<input class="form-control mr-sm-2" type="search"
+									placeholder="Search" aria-label="Search">
+								<button class="btn btn-primary my-2 my-sm-0"
+									type="submit">Buscar</button>
+							</form>
+						
+						
 					</div>
 					<div class="card-body">
-						<div class="alert alert-info "
-							th:if="${#lists.isEmpty(solicitudes)}"
-							th:text="'No hay solicitudes disponibles'"></div>
-						<table class="table table-striped"
-							th:if="${not #lists.isEmpty(solicitudes)}">
+
+
+						<div class="alert alert-info " th:if="${indicador == '0'}"
+							th:text="'No tiene solicitudes para mostrar'"></div>
+						<table class="table table-striped" th:if="${indicador == '1'}">
 
 							<thead class="thead-inverse">
 								<tr>
@@ -28,7 +37,9 @@
 									<th>Tipo Solicitud</th>
 									<th>Cliente</th>
 									<th>Fecha Registro</th>
+									<th>Notificacion</th>
 									<th>Motivo</th>
+									<th>Estado</th>
 									<th>Opciones</th>
 
 								</tr>
@@ -43,7 +54,7 @@
 									<td th:text="${solicitud.fechaRegistro}"></td>
 									<td th:text="${solicitud.notificacion}"></td>
 									<td th:text="${solicitud.motivo.detalle}"></td>
-									<td th:text="${solicitud.estado.descripcion}"></td>
+									<td th:text="${solicitud.estadoEvalua.descripcion}"></td>
 
 									<td>
 
@@ -53,10 +64,20 @@
 												aria-haspopup="true" aria-expanded="false"></button>
 											<div class="dropdown-menu"
 												aria-labelledby="dropdownMenuButton">
-												<a class="dropdown-item" href="#"><i
+												<a sec:authorize="hasRole('ROLE_ATENCION')"
+													class="dropdown-item" href="#"
+													th:href="@{/solicitud/mostrarParaAtencion/} + ${solicitud.id}"><i
+													class="fa fa-search" aria-hidden="true"></i> Ingresar</a> <a
+													sec:authorize="hasRole('ROLE_AREA')" class="dropdown-item"
+													href="#"
+													th:href="@{/solicitud/mostrarParaArea/} + ${solicitud.id}"><i
 													class="fa fa-search" aria-hidden="true"></i> Ingresar</a>
 											</div>
 										</div>
+
+									</td>
+
+
 								</tr>
 
 							</tbody>

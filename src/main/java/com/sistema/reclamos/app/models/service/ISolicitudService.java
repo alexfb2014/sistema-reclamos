@@ -23,6 +23,8 @@ public interface ISolicitudService {
 	
 	public void delete(Long id);
 	
+	public Page<Solicitud> ListarRegistradasYDevueltas(Pageable pageable);
 	
+	public Page<Solicitud> ListarEnviadas(Pageable pageable);
 	
 }

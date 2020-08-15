@@ -30,8 +30,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 
 		http.authorizeRequests().antMatchers("/","/css/**","/js/**","/images/**","/listar**","/api/clientes/**").permitAll()
 		.antMatchers("/clientes/**").hasAnyRole("ADMIN")
+		.antMatchers("/clientes/**").hasAnyRole("ATENCION")
 		.antMatchers("/solicitud/**").hasAnyRole("ADMIN") 
-//		.antMatchers("/factura/**").hasAnyRole("ADMIN") se anota cons secured en el controador
+		.antMatchers("/solicitud/**").hasAnyRole("ATENCION") 
+		.antMatchers("/solicitud/**").hasAnyRole("AREA") 
+		.antMatchers("/solicitud/**").permitAll()
 		.anyRequest().authenticated()
 		.and()
 			.formLogin()

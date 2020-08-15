@@ -40,8 +40,12 @@ INSERT INTO clientes(id,nombre,apellido,id_tipodocumento,numdoc,email,telefono,d
 /* Users */
 INSERT INTO `users` (`username`,`password`,`enabled`,`id_cliente`) VALUES ('admin','$2a$10$3I1a0AigsRw3TD0q5icTJ.wd18A1pCvbFaOOXv1Hsae95/Y.Y7bz6',1,1);
 INSERT INTO `users` (`username`,`password`,`enabled`,`id_cliente`) VALUES ('alex','$2a$10$AGy7F8JulVSP6LYJfvH94OcbgzCxCq8HQ5ohNXmvUZlRprrbaj7HO',1,2);
+INSERT INTO `users` (`username`,`password`,`enabled`,`id_cliente`) VALUES ('area','$2a$10$3rvDH3cseD3WEndm1yWgoeJ1v1pCbCVcIrkySf6tqEnr7hMaIhDwK',1,3);
+INSERT INTO `users` (`username`,`password`,`enabled`,`id_cliente`) VALUES ('atencion','$2a$10$8Y6ejtWH0tpup7.YCTc8XuB28/nWntMdK6nCi.QYukjoWTnfkIOLq',1,4);
 
 
-INSERT INTO authorities (user_id,authority) VALUES(1,'ROLE_USER');
+INSERT INTO authorities (user_id,authority) VALUES(1,'ROLE_CLIENTE');
 INSERT INTO authorities (user_id,authority) VALUES(1,'ROLE_ADMIN');
-INSERT INTO authorities (user_id,authority) VALUES(2,'ROLE_USER');
+INSERT INTO authorities (user_id,authority) VALUES(2,'ROLE_CLIENTE');
+INSERT INTO authorities (user_id,authority) VALUES(3,'ROLE_AREA');
+INSERT INTO authorities (user_id,authority) VALUES(4,'ROLE_ATENCION');

@@ -16,8 +16,8 @@
 				<div class="card ">
 					<div class="card-header text-center" th:text="${titulo}"></div>
 					<div class="card-body">
-
-						<form th:action="@{/solicitud/formSolicitud}"
+				
+						<form th:action="@{/solicitud/finalizar}"
 							th:object="${solicitud}" method="post"
 							enctype="multipart/form-data">
 
@@ -66,46 +66,28 @@
 								</div>
 							</div>
 
-						
 
 							<div class="form-group row">
-								<label for="producto" class="col-form-label col-sm-2">Producto
-									o Servicio</label>
-								<div class="col-form-label col-sm-4">
-									<select id="producto" th:field="*{producto}"
-										class="form-control">
-										<option value="">--Seleccionar Producto--</option>
-										<option th:each="producto: ${listaProductos}"
-											th:text="${producto.detalle}" th:value="${producto.id}"></option>
-									</select>
+								<label class="col-sm-2 col-form-label">Producto</label>
+								<div class="col-sm-7">
+									<input type="text" th:value="${solicitud.producto.detalle}"
+										class="form-control" disabled />
 								</div>
-								<div th:if="${#fields.hasErrors('producto')}"
-									th:errors="*{producto}" class="alert alert1 alert-danger"></div>
 							</div>
-
 							<div class="form-group row">
-								<label for="servicio" class="col-form-label col-sm-2">Motivo</label>
-								<div class="col-form-label col-sm-4">
-									<select id="motivo" th:field="*{motivo}" class="form-control">
-										<option value="">--Seleccionar Motivo--</option>
-										<option th:each="motivo: ${listaMotivos}"
-											th:text="${motivo.detalle}" th:value="${motivo.id}"></option>
-									</select>
+								<label class="col-sm-2 col-form-label">Motivo</label>
+								<div class="col-sm-7">
+									<input type="text" th:value="${solicitud.motivo.detalle}"
+										class="form-control" disabled />
 								</div>
-
 							</div>
-
 							<div class="form-group row">
-								<label class="col-form-label col-sm-2">Medio de
+								<label class="col-sm-2 col-form-label">Medio
 									Notificacion</label>
-								<div th:each="notif: ${notificacion}" class="row col-sm-2">
-									<input type="radio" th:field="*{notificacion}"
-										th:value="${notif}" class="form-control col-sm-1"> <label
-										th:for="${#ids.prev('notificacion')}" th:text="${notif}"
-										class="col-form-label col-sm-8"></label>
+								<div class="col-sm-7">
+									<input type="text" th:value="${solicitud.notificacion}"
+										class="form-control" disabled />
 								</div>
-								<div th:if="${#fields.hasErrors('notificacion')}"
-									th:errors="*{notificacion}" class="alert alert1 alert-danger"></div>
 							</div>
 
 
@@ -114,26 +96,43 @@
 								<label class="col-sm-2 col-form-label">Detalle</label>
 								<div class="col-sm-6">
 									<textarea th:field="*{detalle.detalle}" class="form-control"
-										th:errorclass="'form-control alert-danger'"
-										placeholder="Ingrese el detalle de su reclamo" required> </textarea>
-									<div th:if="${#fields.hasErrors('detalle.detalle')}"
-										th:errors="*{detalle.detalle}"
-										class="alert alert1 alert-danger"></div>
+										placeholder="Ingrese el detalle de su reclamo" disabled> </textarea>
+
 								</div>
 
 							</div>
-							<div class="form-group row">
+							
+							
+							<div class="form-group row" >
 								<label class="col-sm-2 col-form-label">Pedido</label>
 								<div class="col-sm-6">
 
 									<textarea th:field="*{detalle.pedido}" class="form-control"
-										th:errorclass="'form-control alert-danger'"
-										placeholder="Ingrese el pedido de su reclamo" required> </textarea>
+										placeholder="Ingrese el pedido de su reclamo" disabled> </textarea>
 
-									<div th:if="${#fields.hasErrors('detalle.pedido')}"
-										th:errors="*{detalle.pedido}"
-										class="alert alert1 alert-danger"></div>
+
 								</div>
+							</div>
+							
+							<div class="form-group row"  th:if="${not #strings.isEmpty(solicitud.detalle.opinionArea)}"  >
+								<label class="col-sm-2 col-form-label">Opinion</label>
+								<div class="col-sm-6">
+
+									<textarea th:field="*{detalle.opinionArea}" class="form-control"
+										placeholder="Opinion del area competente" disabled> </textarea>
+
+
+								</div>
+							</div>
+							
+							<div class="form-group row">
+
+								<label class="col-sm-2 col-form-label">Respuesta</label>
+								<div class="col-sm-6">
+									<textarea th:field="*{detalle.respuesta}" class="form-control"
+										placeholder="Ingrese una respuesta para finalizar la solicitud"> </textarea>
+								</div>
+
 							</div>
 
 							<div class="form-group row">
@@ -145,19 +144,21 @@
 
 							</div>
 
-							<div class="form-group row">
-
-								<div class="col-sm-6">
-									<input type="submit" id="btnguardar" value="Guardar"
-										class="btn btn-primary" />
+							<div class="form-group row py-4">
+								
+								<a class="btn btn-primary" th:if="${#strings.isEmpty(solicitud.detalle.opinionArea)}"  
+								th:href="@{/solicitud/enviar/} + ${solicitud.id}"> Enviar area</a>
+	
+								<div>
+									<input type="submit" id="btnguardar" value="Finalizar"
+										class="btn btn-success px-3"/>
 								</div>
+
 							</div>
-
-
-
 							<!-- 			<input type="hidden" th:field="*{id}" /> -->
 
 						</form>
+
 					</div>
 				</div>
 			</div>
