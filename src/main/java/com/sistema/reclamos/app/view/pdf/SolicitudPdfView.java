@@ -131,12 +131,13 @@ public class SolicitudPdfView extends AbstractPdfView {
 			PdfPCell cell14 = null;
 			cell14 = new PdfPCell(new Phrase("Opinion Area: " + solicitud.getDetalle().getOpinionArea()));
 			cell14.setPadding(8f);
+			tabla2.addCell(cell14);
 		}
 		
-		PdfPCell cell14 = null;
-		cell14 = new PdfPCell(new Phrase("Respuesta: " + solicitud.getDetalle().getRespuesta()));
-		cell14.setPadding(8f);
-		tabla2.addCell(cell14);
+		PdfPCell cell15 = null;
+		cell15 = new PdfPCell(new Phrase("Respuesta: " + solicitud.getDetalle().getRespuesta()));
+		cell15.setPadding(8f);
+		tabla2.addCell(cell15);
 		
 		
 		document.add(tabla2);
