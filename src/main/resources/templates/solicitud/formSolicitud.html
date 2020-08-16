@@ -69,13 +69,27 @@
 						
 
 							<div class="form-group row">
+								<label for="producto" class="col-form-label col-sm-2">Tipo de Solicitud</label>
+								<div class="col-form-label col-sm-4">
+									<select id="tipoSolicitud" th:field="*{tipoSolicitud}"
+										class="form-control">
+										<option value="">--Seleccionar Tipo--</option>
+										<option th:each="tipo: ${listaTipos}"
+											th:text="${tipo.descripcion}" th:value="${tipo.id}" ></option>
+									</select>
+								</div>
+								<div th:if="${#fields.hasErrors('tipoSolicitud')}"
+									th:errors="*{tipoSolicitud}" class="alert alert1 alert-danger"></div>
+							</div>
+
+							<div class="form-group row">
 								<label for="producto" class="col-form-label col-sm-2">Producto
 									o Servicio</label>
 								<div class="col-form-label col-sm-4">
 									<select id="producto" th:field="*{producto}"
 										class="form-control">
 										<option value="">--Seleccionar Producto--</option>
-										<option th:each="producto: ${listaProductos}"
+										<option th:each="producto: ${listaProductos}" 
 											th:text="${producto.detalle}" th:value="${producto.id}"></option>
 									</select>
 								</div>
@@ -89,7 +103,7 @@
 									<select id="motivo" th:field="*{motivo}" class="form-control">
 										<option value="">--Seleccionar Motivo--</option>
 										<option th:each="motivo: ${listaMotivos}"
-											th:text="${motivo.detalle}" th:value="${motivo.id}"></option>
+											th:text="${motivo.detalle}" th:value="${motivo.id}" ></option>
 									</select>
 								</div>
 

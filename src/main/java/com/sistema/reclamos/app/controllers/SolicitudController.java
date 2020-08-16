@@ -1,8 +1,8 @@
 package com.sistema.reclamos.app.controllers;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,11 +31,11 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sistema.reclamos.app.models.entity.Cliente;
-import com.sistema.reclamos.app.models.entity.Estado;
 import com.sistema.reclamos.app.models.entity.Solicitud;
 import com.sistema.reclamos.app.models.entity.Usuario;
 import com.sistema.reclamos.app.models.service.IProductoService;
 import com.sistema.reclamos.app.models.service.ISolicitudService;
+import com.sistema.reclamos.app.models.service.ITipoSolicitudService;
 import com.sistema.reclamos.app.models.service.IUsuarioService;
 import com.sistema.reclamos.app.util.paginator.PageRender;
 import com.sistema.reclamos.app.models.service.IEstadoService;
@@ -64,6 +64,9 @@ public class SolicitudController {
 
 	@Autowired
 	IEstadoService estadoService;
+	
+	@Autowired
+	ITipoSolicitudService tipoSolicitud;
 
 	@GetMapping("/formSolicitud")
 	public String nuevo(Map<String, Object> model, Authentication aut) {
@@ -82,6 +85,7 @@ public class SolicitudController {
 		solicitud.setCliente(cliente);
 		model.put("listaProductos", productoService.findAll());
 		model.put("listaMotivos", motivoService.findAll());
+		model.put("listaTipos", tipoSolicitud.findAll());
 		model.put("notificacion", notificacion);
 		model.put("solicitud", solicitud);
 		model.put("titulo", "Registro de Solicitud");
@@ -89,21 +93,7 @@ public class SolicitudController {
 		return "solicitud/formSolicitud";
 	}
 
-	public Estado ExtraerEstado(String descripcion) {
-
-		List<Estado> estados = estadoService.findAll();
-		Estado estado = null;
-
-		log.info("Cantidad de Estados : " + estados.size());
-		for (int i = 0; i < estados.size(); i++) {
-			log.info("estado : " + estados.get(i).descripcion);
-			if (estados.get(i).descripcion == descripcion) {
-				estado = estados.get(i);
-			}
-		}
-		log.info("estado : " + estado.getDescripcion());
-		return estado;
-	}
+	
 
 	@PostMapping("/formSolicitud")
 	public String Grabar(@Valid Solicitud solicitud, BindingResult result, Map<String, Object> model,
@@ -114,6 +104,7 @@ public class SolicitudController {
 			model.put("titulo", "Registro de Solicitud");
 			model.put("listaProductos", productoService.findAll());
 			model.put("listaMotivos", motivoService.findAll());
+			model.put("listaTipos", tipoSolicitud.findAll());
 			model.put("notificacion", notificacion);
 			return "solicitud/formSolicitud";
 		}
@@ -199,6 +190,17 @@ public class SolicitudController {
 		return "solicitud/mostrarSolicitudParaArea";
 	}
 	
+	@GetMapping(value = "/mostrarParaCliente/{id}")
+	public String VistaSolicitud(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+
+		Solicitud solicitud = solicitudService.findOne(id);
+
+		model.put("cliente", solicitud.getCliente());
+		model.put("solicitud", solicitud);
+		model.put("titulo", "Datos de Solicitud");
+
+		return "solicitud/mostrarSolicitudParaCliente";
+	}
 	
 	@PostMapping("/finalizar")
 	public String accion(@Valid Solicitud solicitud, BindingResult result, Map<String, Object> model,
@@ -230,7 +232,7 @@ public class SolicitudController {
 			}
 
 		}
-
+		solicitud.fechaRespuesta = new Date();
 		solicitudService.save(solicitud);
 		status.setComplete();
 		flash.addFlashAttribute("success", mensaje);
@@ -257,19 +259,13 @@ public class SolicitudController {
 				solicitud.setEstadoEvalua(estadoService.findByDescripcion("devuelto"));
 				mensaje = "Solicitud respondida correctamente";
 			}
-		
 
-			
 		solicitudService.save(solicitud);
 		status.setComplete();
 		flash.addFlashAttribute("success", mensaje);
 		return "redirect:listarBandeja";
 	}
 
-	
-	
-	
-	
 	@GetMapping(value = "/enviar/{id}")
 	public String enviar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash,
 			@RequestParam(name = "page", defaultValue = "0") int page) {
@@ -336,7 +332,7 @@ public class SolicitudController {
 
 	}
 
-	
+	@SuppressWarnings("unused")
 	private boolean hasRole(String role, String role1) {
 
 		SecurityContext context = SecurityContextHolder.getContext();

@@ -14,17 +14,18 @@
 				<div class="card bg-ligth">
 					<div class="card-header font-italic">
 						<h5>Mis Solicitudes</h5>
-						
-						<form class="form-inline" th:if="${not #lists.isEmpty(solicitudes)}">
+
+						<form class="form-inline"
+							th:if="${not #lists.isEmpty(solicitudes)}">
 							<input class="form-control mr-sm-2" type="search"
 								placeholder="Search" aria-label="Search">
 							<button class="btn btn-primary my-2 my-sm-0" type="submit">Buscar</button>
 						</form>
 					</div>
-					
-					
+
+
 					<div class="card-body">
-						
+
 
 						<div class="alert alert-info "
 							th:if="${#lists.isEmpty(solicitudes)}"
@@ -49,7 +50,7 @@
 								<tr th:each="solicitud: ${solicitudes}">
 
 									<td th:text="${solicitud.id}"></td>
-									<td>*TipoSolicitud*</td>
+									<td th:text="${solicitud.tipoSolicitud.descripcion}"></td>
 									<td th:text="${solicitud.fechaRegistro}"></td>
 									<td th:text="${solicitud.notificacion}"></td>
 									<td th:text="${solicitud.motivo.detalle}"></td>
@@ -62,9 +63,12 @@
 												aria-haspopup="true" aria-expanded="false"></button>
 											<div class="dropdown-menu"
 												aria-labelledby="dropdownMenuButton">
-												<a class="dropdown-item" href="#"><i
+												<a class="dropdown-item"
+													th:href="@{/solicitud/mostrarParaCliente/} + ${solicitud.id}"><i
 													class="fa fa-search" aria-hidden="true"></i> Ver</a> <a
-													class="dropdown-item" href="#"><i
+													class="dropdown-item"
+													th:if="${solicitud.estado.descripcion == 'finalizado'}"
+													th:href="@{'/solicitud/mostrarParaCliente/' + ${solicitud.id}(format=pdf)}"><i
 													class="fa fa-download" aria-hidden="true"></i> Imprimir</a>
 											</div>
 										</div>

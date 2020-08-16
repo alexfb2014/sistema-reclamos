@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org."
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/layout/layout :: head">
+</head>
+<body>
+
+	<header th:replace="/layout/layout :: header"> </header>
+
+	<div class="card">
+		<img th:src="@{/images/fondo.png}" class="img-fluid" />
+		<div class="card-img-overlay">
+
+			<div class="container py-4">
+
+				<div class="card ">
+					<div class="card-header text-center" th:text="${titulo}"></div>
+					<div class="card-body">
+
+
+						<div class="form-group row">
+
+							<label class="col-sm-2 col-form-label">Cliente</label>
+							<div class="col-sm-7">
+								<input type="text" th:value="*{cliente.nombreYApellido}"
+									class="form-control" disabled />
+							</div>
+						</div>
+
+						<div class="form-group row">
+
+							<label class="col-sm-2 col-form-label">Documento</label>
+							<div class="col-sm-3">
+								<input type="text"
+									th:value="*{cliente.tipoDocumento.descripcion + '/' + cliente.numdoc}"
+									class="form-control" disabled />
+							</div>
+
+						</div>
+
+
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Telefono</label>
+							<div class="col-sm-3">
+								<input type="number" th:value="*{cliente.telefono}"
+									class="form-control" disabled />
+							</div>
+
+
+							<label class="col-sm-1 col-form-label">Email</label>
+							<div class="col-sm-3">
+								<input type="email" th:value="*{cliente.email}"
+									class="form-control" disabled />
+							</div>
+
+						</div>
+
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Direccion</label>
+							<div class="col-sm-7">
+								<input type="text" th:value="*{cliente.direccion}"
+									class="form-control" disabled />
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Tipo Solicitud</label>
+							<div class="col-sm-7">
+								<input type="text"
+									th:value="${solicitud.tipoSolicitud.descripcion}"
+									class="form-control" disabled />
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Registro</label>
+							<div class="col-sm-3">
+								<input type="text"
+									th:value="${solicitud.fechaRegistro}"
+									class="form-control" disabled />
+							</div>
+							
+							<label class="col-sm-1 col-form-label">Resp.</label>
+							<div class="col-sm-3">
+								<input type="text"
+									th:value="${solicitud.fechaRespuesta}"
+									class="form-control" disabled />
+							</div>
+							
+						</div>
+						
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Producto</label>
+							<div class="col-sm-7">
+								<input type="text" th:value="${solicitud.producto.detalle}"
+									class="form-control" disabled />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Motivo</label>
+							<div class="col-sm-7">
+								<input type="text" th:value="${solicitud.motivo.detalle}"
+									class="form-control" disabled />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Medio Notificacion</label>
+							<div class="col-sm-7">
+								<input type="text" th:value="${solicitud.notificacion}"
+									class="form-control" disabled />
+							</div>
+						</div>
+
+
+						<div class="form-group row">
+
+							<label class="col-sm-2 col-form-label">Detalle</label>
+							<div class="col-sm-6">
+								<textarea th:field="*{solicitud.detalle.detalle}" class="form-control"
+									disabled> </textarea>
+
+							</div>
+
+						</div>
+
+
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Pedido</label>
+							<div class="col-sm-6">
+
+								<textarea  class="form-control"
+									disabled>[[${solicitud.detalle.pedido}]]</textarea>
+
+
+							</div>
+						</div>
+
+						<div class="form-group row"
+							th:if="${not #strings.isEmpty(solicitud.detalle.opinionArea)}">
+							<label class="col-sm-2 col-form-label">Opinion</label>
+							<div class="col-sm-6">
+
+								<textarea class="form-control"
+									disabled>[[${solicitud.detalle.opinionArea}]]</textarea>
+
+
+							</div>
+						</div>
+
+						<div class="form-group row">
+
+							<label class="col-sm-2 col-form-label">Respuesta</label>
+							<div class="col-sm-6">
+								<textarea class="form-control"
+									disabled>[[${solicitud.detalle.respuesta}]]</textarea>
+							</div>
+
+						</div>
+
+						<div class="form-group row">
+							<label for="archivo" class="col-sm-2 col-form-label">Archivo</label>
+
+							<div class="col-sm-6">
+								<input type="file" name="archivo" class="form-control" />
+							</div>
+
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="/layout/layout :: footer"> </footer>
+
+</body>
+</html>

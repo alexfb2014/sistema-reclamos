@@ -49,7 +49,7 @@
 								<tr th:each="solicitud: ${solicitudes}">
 
 									<td th:text="${solicitud.id}"></td>
-									<td>*TipoSolicitud*</td>
+									<td th:text="${solicitud.tipoSolicitud.descripcion}"></td>
 									<td th:text="${solicitud.cliente.nombreYApellido}"></td>
 									<td th:text="${solicitud.fechaRegistro}"></td>
 									<td th:text="${solicitud.notificacion}"></td>

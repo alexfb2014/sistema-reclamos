@@ -12,6 +12,10 @@ INSERT INTO motivos(id, detalle) VALUES(3, 'Entrega de billetes falsos');
 INSERT INTO motivos(id, detalle) VALUES(4, 'Publicidad engañosa');
 
 
+INSERT INTO tipossolicitud(id, descripcion) VALUES(1, 'reclamo');
+INSERT INTO tipossolicitud(id, descripcion) VALUES(2, 'queja');
+INSERT INTO tipossolicitud(id, descripcion) VALUES(3, 'sugerencia');
+
 INSERT INTO tipodocumento(id, descripcion,longitud) VALUES(1, 'DNI',8);
 INSERT INTO tipodocumento(id, descripcion,longitud) VALUES(2, 'CE',8);
 INSERT INTO tipodocumento(id, descripcion,longitud) VALUES(3, 'RUC',11);

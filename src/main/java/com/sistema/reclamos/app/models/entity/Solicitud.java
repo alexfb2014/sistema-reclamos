@@ -40,7 +40,7 @@ public class Solicitud implements Serializable{
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_tipo")
-	public Motivo tipoSolicitud;
+	public TipoSolicitud tipoSolicitud;
 
 	@NotEmpty
 	public String notificacion;
@@ -142,15 +142,17 @@ public class Solicitud implements Serializable{
 		this.fechaRespuesta = fechaRespuesta;
 	}
 
-	public Motivo getTipoSolicitud() {
+	
+
+	public TipoSolicitud getTipoSolicitud() {
 		return tipoSolicitud;
 	}
 
-	public void setTipoSolicitud(Motivo tipoSolicitud) {
+
+	public void setTipoSolicitud(TipoSolicitud tipoSolicitud) {
 		this.tipoSolicitud = tipoSolicitud;
 	}
 
-	
 
 	public Estado getEstadoEvalua() {
 		return estadoEvalua;
