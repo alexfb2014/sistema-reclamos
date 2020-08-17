@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org."
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" href="/css/estiloModal.css" type="text/css" />
+<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
+<link rel="stylesheet" th:href="@{/css/estiloModal.css}">
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+
+</head>
+<body background="/images/fondo.png">
+
+	<header th:replace="/layout/layout :: header"> </header>
+
+
+	<div class="card">
+
+		<div class="card-img-overlay">
+
+			<div class="container py-4">
+
+				<div class="card ">
+					<div class="card-header text-center" th:text="${titulo}"></div>
+					<div class="card-body">
+
+						<form th:action="@{/solicitud/BuscarCliente}"
+							th:object="${cliente}" method="post"
+							enctype="multipart/form-data">
+
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label">Documento</label>
+								<div class="col-sm-3">
+									<input type="number" th:field="*{numdoc}" class="form-control"
+										th:errorclass="'form-control alert-danger'" /> <small
+										class="form-text text-danger"
+										th:if="${#fields.hasErrors('numdoc')}" th:errors="*{numdoc}"></small>
+								</div>
+							</div>
+
+							<div class="form-group row">
+
+								<div class="col-sm-6">
+									<input type="submit" id="btnguardar" value="Buscar"
+										class="btn btn-primary" />
+								</div>
+							</div>
+
+
+
+							<!-- 			<input type="hidden" th:field="*{id}" /> -->
+
+						</form>
+					</div>
+
+					<table class="table table-striped" th:if="${cliente.id != null}">
+
+						<thead class="thead-inverse">
+							<tr>
+
+								<th>nombre</th>
+								<th>Tip.Documento</th>
+								<th>Documento</th>
+								<th>Email</th>
+								<th>Telefono</th>
+
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+
+
+								<td th:text="${cliente.NombreYApellido}"></td>
+								<td th:text="${cliente.tipoDocumento.descripcion}"></td>
+								<td th:text="${cliente.numdoc}"></td>
+								<td th:text="${cliente.email}"></td>
+								<td th:text="${cliente.telefono}"></td>
+
+								<td><a class="btn btn-primary"
+									th:href="@{/solicitud/formSolicitud/} + ${cliente.id}"><i
+										class="fa fa-plus-circle" aria-hidden="true"></i> Nueva
+										Solicitud</a></td>
+							</tr>
+
+						</tbody>
+
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<footer th:replace="/layout/layout :: footer"> </footer>
+</body>
+</html>

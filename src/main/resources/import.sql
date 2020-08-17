@@ -36,7 +36,7 @@ INSERT INTO clientes(id,nombre,apellido,id_tipodocumento,numdoc,email,telefono,d
 INSERT INTO clientes(id,nombre,apellido,id_tipodocumento,numdoc,email,telefono,direccion) VALUES(5,'David','Rodriguez',1,'9848452' ,'Rodriguez@hotmail.com','967187791','Piura');
 INSERT INTO clientes(id,nombre,apellido,id_tipodocumento,numdoc,email,telefono,direccion) VALUES(6,'Hugo','Martinez',1,'945454' ,'Martinez@hotmail.com','967187791','Piura');
 INSERT INTO clientes(id,nombre,apellido,id_tipodocumento,numdoc,email,telefono,direccion) VALUES(7,'Hugo','Aguilar',1,'9845454' ,'Aguilar@hotmail.com','967187791','Piura');
-INSERT INTO clientes(id,nombre,apellido,id_tipodocumento,numdoc,email,telefono,direccion) VALUES(8,'Jose','Serrano',1,'9555556' ,'Serrano@hotmail.com','967187791','Piura');
+INSERT INTO clientes(id,nombre,apellido,id_tipodocumento,numdoc,email,telefono,direccion) VALUES(8,'Jose','Serrano',1,'75822501' ,'Serrano@hotmail.com','967187791','Piura');
 
 
 

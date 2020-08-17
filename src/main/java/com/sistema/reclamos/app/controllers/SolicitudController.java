@@ -38,11 +38,12 @@ import com.sistema.reclamos.app.models.service.ISolicitudService;
 import com.sistema.reclamos.app.models.service.ITipoSolicitudService;
 import com.sistema.reclamos.app.models.service.IUsuarioService;
 import com.sistema.reclamos.app.util.paginator.PageRender;
+import com.sistema.reclamos.app.models.service.IClienteService;
 import com.sistema.reclamos.app.models.service.IEstadoService;
 import com.sistema.reclamos.app.models.service.IMotivoService;
 
 @Controller
-@SessionAttributes("solicitud")
+@SessionAttributes(value = {"solicitud","cliente"})
 @RequestMapping("/solicitud")
 public class SolicitudController {
 
@@ -62,6 +63,9 @@ public class SolicitudController {
 	@Autowired
 	IUsuarioService usuarioService;
 
+	@Autowired
+	IClienteService clienteService;
+	
 	@Autowired
 	IEstadoService estadoService;
 	
@@ -93,7 +97,24 @@ public class SolicitudController {
 		return "solicitud/formSolicitud";
 	}
 
-	
+	@GetMapping(value = "/formSolicitud/{id}")
+	public String nuevaSol(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+
+		Cliente cliente = clienteService.findOne(id);
+		Solicitud solicitud = new Solicitud();
+		solicitud.setCliente(cliente);
+
+		List<String> notificacion = Arrays.asList("telefono", "correo", "direccion");
+		model.put("titulo", "Registro de Solicitud");
+		model.put("listaProductos", productoService.findAll());
+		model.put("listaMotivos", motivoService.findAll());
+		model.put("listaTipos", tipoSolicitud.findAll());
+		model.put("notificacion", notificacion);
+		model.put("solicitud", solicitud);
+
+		return "solicitud/formSolicitud1";
+	}
+
 
 	@PostMapping("/formSolicitud")
 	public String Grabar(@Valid Solicitud solicitud, BindingResult result, Map<String, Object> model,
@@ -122,6 +143,76 @@ public class SolicitudController {
 		return "redirect:misSolicitudes";
 	}
 
+	@PostMapping("/formSolicitud1")
+	public String Grabar1(@Valid Solicitud solicitud, BindingResult result, Map<String, Object> model,
+			RedirectAttributes flash, SessionStatus status) {
+
+		if (result.hasErrors()) {
+			List<String> notificacion = Arrays.asList("telefono", "correo", "direccion");
+			model.put("titulo", "Registro de Solicitud");
+			model.put("listaProductos", productoService.findAll());
+			model.put("listaMotivos", motivoService.findAll());
+			model.put("listaTipos", tipoSolicitud.findAll());
+			model.put("notificacion", notificacion);
+			return "solicitud/formSolicitud";
+		}
+
+		if (solicitud.id == null) {
+
+			solicitud.setEstado(estadoService.findByDescripcion("registrado"));
+			solicitud.setEstadoEvalua(estadoService.findByDescripcion("registrado"));
+
+		}
+
+		solicitudService.save(solicitud);
+		status.setComplete();
+		flash.addFlashAttribute("success", "Solicitud Registrada satisfactoriamente");
+		return "redirect:BuscarCliente";
+	}
+	
+	@GetMapping(value = "/BuscarCliente")
+	public String BuscarCliente(Map<String, Object> model, RedirectAttributes flash) {
+
+		Cliente cliente = new Cliente();
+		model.put("cliente", cliente);
+
+		model.put("titulo", "Buscar Cliente");
+
+		return "solicitud/buscarCliente";
+	}
+	
+	
+	@PostMapping(value = "/BuscarCliente")
+	public String MostrarCliente(@Valid Cliente cliente, BindingResult result,
+			Map<String, Object> model, RedirectAttributes flash, SessionStatus status) {
+
+		
+		
+		
+		if (cliente.getNumdoc().isBlank() || cliente.getNumdoc().isEmpty()) {
+			flash.addFlashAttribute("warning", "Ingresar numero de documento");
+			model.put("cliente", cliente);
+			model.put("titulo", "Buscar Cliente");
+			return "redirect:BuscarCliente";
+		}
+		
+		
+		if (clienteService.findByNumdoc(cliente.getNumdoc()) == null) {
+			flash.addFlashAttribute("warning", "Documento no existe");
+			model.put("cliente", cliente);
+			model.put("titulo", "Buscar Cliente");
+			return "redirect:BuscarCliente";
+		}
+		
+		Cliente cliente1 = clienteService.findByNumdoc(cliente.getNumdoc());
+		
+		
+		model.put("cliente", cliente1);
+		model.put("titulo", "Buscar Cliente");
+
+		return "solicitud/buscarCliente";
+	}
+	
 	@GetMapping(value = { "/listarBandeja" })
 	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model, Authentication aut) {
 

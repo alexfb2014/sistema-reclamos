@@ -60,6 +60,13 @@ public class ClienteServiceImpl implements IClienteService{
 		return clienteDao.findAll(pageable);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Cliente findByNumdoc(String numdoc) {
+		
+		return clienteDao.findByNumdoc(numdoc).orElse(null);
+	}
+
 
 
 

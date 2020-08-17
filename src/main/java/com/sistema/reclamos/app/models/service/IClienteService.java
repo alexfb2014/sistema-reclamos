@@ -24,5 +24,6 @@ public interface IClienteService {
 	
 	public void delete(Long id);
 	
+	public Cliente findByNumdoc(String numdoc);
 	
 }
