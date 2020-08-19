@@ -19,8 +19,9 @@ public class TipoSolicitud implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 	
-	
+	@Column(length = 80)
 	public String descripcion;
+	
 	@Column(columnDefinition="char default 'S'")
 	public char estadoreg;
 

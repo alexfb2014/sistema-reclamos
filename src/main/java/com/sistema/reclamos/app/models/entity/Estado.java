@@ -1,5 +1,6 @@
 package com.sistema.reclamos.app.models.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,14 +16,18 @@ public class Estado {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
+	
 	@NotEmpty
+	@Column(length = 80)
 	public String descripcion;
 	
 	@NotEmpty
+	@Column(length = 200)
 	public String detalle;
 	
 	
 	@NotEmpty
+	@Column(length = 150)
 	public String rol;
 
 

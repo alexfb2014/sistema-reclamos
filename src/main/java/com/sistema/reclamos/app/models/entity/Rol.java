@@ -2,6 +2,7 @@ package com.sistema.reclamos.app.models.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,8 +17,10 @@ public class Rol implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(length = 11)
 	private int id;
 	
+	@Column(length = 100)
 	private String authority;
 	
 	private static final long serialVersionUID = 1L;

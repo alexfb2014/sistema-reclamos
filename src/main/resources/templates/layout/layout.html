@@ -31,13 +31,14 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
-					<li class="nav-item dropdown"><a
+					<li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_ATENCION','ROLE_CLIENTE')" class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false"> Solicitudes </a>
 						<div sec:authorize="hasAnyRole('ROLE_CLIENTE','ROLE_ATENCION')" class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a sec:authorize="hasRole('ROLE_ATENCION')" class="dropdown-item btn-outline-primary"
 								th:href="@{/solicitud/BuscarCliente}">Nueva solicitud - Atencion al cliente</a> 
+							
 							
 							<a sec:authorize="hasRole('ROLE_CLIENTE')" class="dropdown-item btn-outline-primary"
 								th:href="@{/solicitud/formSolicitud}">Nueva solicitud</a> 
