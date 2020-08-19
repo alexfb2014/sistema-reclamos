@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,9 +33,11 @@ public class Cliente implements Serializable{
 	public Long id;
 	
 	@NotEmpty
+	@Column(length = 150)
 	public String nombre;
 	
 	@NotEmpty
+	@Column(length = 150)
 	public String apellido;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -46,9 +49,11 @@ public class Cliente implements Serializable{
 	
 	@NotEmpty
 	@Email
+	@Column(length = 150)
 	public String email;
 	
 	@NotEmpty
+	@Column(length = 50)
 	public String telefono;
 	
 	@NotEmpty
