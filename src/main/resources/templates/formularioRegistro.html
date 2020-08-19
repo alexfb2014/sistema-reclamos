@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org."
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/layout/layout :: head">
+</head>
+<body>
+
+	<header th:replace="/layout/layout :: header"> </header>
+	<div class="card">
+		<img th:src="@{/images/fondo.png}" class="img-fluid" />
+		<div class="card-img-overlay">
+			<div class="container py-4">
+
+				<div class="card bg-dark text-white">
+					<div class="card-header" th:text="${titulo}"></div>
+					<div class="card-body">
+						<form th:action="@{/formularioRegistro}" th:object="${usuario}"
+							method="post" enctype="multipart/form-data">	
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label">Nombre</label>
+								<div class="col-sm-6">
+									<input type="text" th:field="*{cliente.nombre}" class="form-control"
+										th:errorclass="'form-control alert-danger'" /> <small
+										class="form-text text-danger"
+										th:if="${#fields.hasErrors('cliente.nombre')}" th:errors="*{cliente.nombre}"></small>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label">Apellido</label>
+								<div class="col-sm-6">
+									<input type="text" th:field="*{cliente.apellido}" class="form-control"
+										th:errorclass="'form-control alert-danger'" /> <small
+										class="form-text text-danger"
+										th:if="${#fields.hasErrors('cliente.apellido')}"
+										th:errors="*{cliente.apellido}"></small>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label">Documento</label>
+								<div class="col-sm-6">
+									<input type="number" th:field="*{cliente.numdoc}" class="form-control"
+										th:errorclass="'form-control alert-danger'" /> <small
+										class="form-text text-danger"
+										th:if="${#fields.hasErrors('cliente.numdoc')}" th:errors="*{cliente.numdoc}"></small>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label">Email</label>
+								<div class="col-sm-6">
+									<input type="email" th:field="*{cliente.email}" class="form-control"
+										th:errorclass="'form-control alert-danger'" /> <small
+										class="form-text text-danger"
+										th:if="${#fields.hasErrors('cliente.email')}" th:errors="*{cliente.email}"></small>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label">Telefono</label>
+								<div class="col-sm-6">
+									<input type="number" th:field="*{cliente.telefono}"
+										class="form-control"
+										th:errorclass="'form-control alert-danger'" /> <small
+										class="form-text text-danger"
+										th:if="${#fields.hasErrors('cliente.telefono')}"
+										th:errors="*{cliente.telefono}"></small>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label">Direccion</label>
+								<div class="col-sm-6">
+									<input type="text" th:field="*{cliente.direccion}" class="form-control"
+										th:errorclass="'form-control alert-danger'" /> <small
+										class="form-text text-danger"
+										th:if="${#fields.hasErrors('cliente.direccion')}"
+										th:errors="*{cliente.direccion}"></small>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label">Usuario</label>
+								<div class="col-sm-6">
+									<input type="text" th:field="*{username}" class="form-control"
+										th:errorclass="'form-control alert-danger'" /> <small
+										class="form-text text-danger"
+										th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></small>
+								</div>							
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label">Password</label>
+								<div class="col-sm-6">
+									<input type="password" th:field="*{password}" class="form-control"
+										th:errorclass="'form-control alert-danger'" /> <small
+										class="form-text text-danger"
+										th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+								</div>				
+							</div>
+
+							<div class="form-group row">
+
+								<div class="col-sm-6">
+									<input type="submit" id="btnguardar" value="Guardar"
+										class="btn btn-primary" />
+								</div>
+							</div>
+
+
+
+							<!-- 			<input type="hidden" th:field="*{id}" /> -->
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="/layout/layout :: footer"> </footer>
+
+</body>
+</html>
