@@ -1,7 +1,9 @@
 package com.sistema.reclamos.app.controllers;
 
+
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sistema.reclamos.app.models.entity.Cliente;
 import com.sistema.reclamos.app.models.service.IClienteService;
+import com.sistema.reclamos.app.models.service.ITipoDocumento;
 import com.sistema.reclamos.app.util.paginator.PageRender;
 
 
@@ -34,21 +37,49 @@ public class ClienteController {
 	@Autowired
 	public IClienteService clienteService;
 	
+	@Autowired
+	public ITipoDocumento tipoDocumentoService;
 	
-	@GetMapping("/form")
-	public String crear(Map<String, Object> model) {
+	
 
+	@GetMapping("/form")
+	public String crear(Model model, SessionStatus status, HttpServletRequest request) {
+
+		 Map md = model.asMap();
+		if (!md.isEmpty()) {
+			model.addAttribute("titulo", "Formulario del cliente");
+			model.addAttribute("tipoDocumentos", tipoDocumentoService.findAll());
+			return "clientes/form";
+		}
+		 
+		
 		Cliente cliente = new Cliente();
-		model.put("titulo", "Formulario del cliente");
-		model.put("cliente", cliente);
+		model.addAttribute("titulo", "Formulario del cliente");
+		model.addAttribute("tipoDocumentos", tipoDocumentoService.findAll());
+		model.addAttribute("cliente", cliente);
 
 		return "clientes/form";
 	}
+	
+
 	
 	@PostMapping("/form")
 	public String guardar(@Valid Cliente cliente, BindingResult result, Model model,
 							RedirectAttributes flash, SessionStatus status) {
 
+		if (cliente.getTipoDocumento().getLongitud() != cliente.getNumdoc().length()) {
+			
+			flash.addFlashAttribute("warning", "El tipo de documento seleccionado: "+cliente.getTipoDocumento().getDescripcion()
+					+" debe tener "+ cliente.getTipoDocumento().getLongitud()+" caracteres");
+		
+			flash.addFlashAttribute("titulo", "Formulario del cliente");
+			flash.addFlashAttribute("tipoDocumentos", tipoDocumentoService.findAll());
+			flash.addFlashAttribute("cliente", cliente);
+			return "redirect:form";
+			
+		}
+		
+		
 		if (result.hasErrors()) {
 			model.addAttribute("titulo", "Formulario del cliente");
 			return "clientes/form";
@@ -79,6 +110,7 @@ public class ClienteController {
 			return "redirect:/listar";
 		}
 		model.put("titulo", "Editar cliente");
+		model.put("tipoDocumentos", tipoDocumentoService.findAll());
 		model.put("cliente", cliente);
 		return "clientes/form";
 	}
