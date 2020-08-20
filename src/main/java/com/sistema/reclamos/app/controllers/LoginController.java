@@ -62,6 +62,7 @@ public class LoginController {
 			model.addAttribute("titulo", "Formulario del usuario");
 			return "clientes/form";
 		}
+		
 		String mensajeFlash = (usuario.getCliente().getId() != null) ? "Cliente Editado con exito" : "Cliente Creado con Exito";
 		clienteService.save(usuario.getCliente());
 		status.setComplete();
