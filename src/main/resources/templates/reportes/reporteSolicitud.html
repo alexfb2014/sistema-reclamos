@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org."
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" href="/css/estiloModal.css" type="text/css" />
+<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
+<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+</head>
+
+<body background="/images/fondo.png">
+
+	<header th:replace="/layout/layout :: header"> </header>
+
+	<div class="card">
+		<img th:src="@{/images/fondo.png}" class="img-fluid" />
+		<div class="card-img-overlay">
+			<div class="container py-4">
+
+				<div class="card">
+					<div class="card-header font-italic">
+					<h5>Pantalla de Reporte de Solicitudes</h5>
+					</div>
+					<div class="card-body">
+						<form th:action="@{/reporteSolicitud}" method="post"
+							enctype="multipart/form-data">
+
+							<div class="form-group row font-italic">
+								<label class="col-form-label col-sm-1">Desde</label>
+								<div class="row col-sm-3">
+									<input type="date" id="fechaNacimiento"
+										placeholder="yyyy/MM/dd" class="form-control">
+								</div>
+								
+								<label class="col-form-label col-sm-1">Hasta</label>
+								<div class="row col-sm-3">
+									<input type="date" id="fechaNacimiento"
+										placeholder="yyyy/MM/dd" class="form-control">
+								</div>
+							</div>
+							
+							<div class="form-group row font-italic">
+								<label for="producto" class="col-form-label col-sm-2">Tipo
+									de Solicitud</label>
+								<div class="col-form-label col-sm-3">
+									<select name="select" id="opcion"
+										class="form-control">
+										<option value="4">Todas</option>
+										<option	value="3">Reclamo</option>
+										<option value="2">Queja</option>
+										<option	value="1">Sugerencia</option>
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-group row font-italic">
+								<label for="producto" class="col-form-label col-sm-2">Estado</label>
+								<div class="col-form-label col-sm-3">
+									<select name="select" id="opcion"
+										class="form-control">
+										<option value="4">Todas</option>
+										<option	value="3">Registrada</option>
+										<option value="2">Evaluacion</option>
+										<option	value="1">Finalizada</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group row font-italic">
+								<label for="producto" class="col-form-label col-sm-2">Notificacion</label>
+								<div class="col-form-label col-sm-3">
+									<select name="select" id="opcion"
+										class="form-control">
+										<option value="4">Todas</option>
+										<option	value="3">Correo</option>
+										<option value="2">Telefono</option>
+										<option	value="1">Direccion</option>
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-group row">
+
+								<div class="col-sm-6">
+									<input type="submit" id="btnguardar" value="Exportar a Excel"
+										class="btn btn-success" />
+								</div>
+							</div>
+
+
+
+							<!-- 			<input type="hidden" th:field="*{id}" /> -->
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<footer th:replace="/layout/layout :: footer"> </footer>
+</body>
+</html>
