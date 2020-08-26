@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,8 @@ import com.sistema.reclamos.app.models.service.IUsuarioService;
 
 @Controller
 public class LoginController {
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@Autowired
 	public IUsuarioService usuarioService;
 	@Autowired
@@ -62,7 +65,7 @@ public class LoginController {
 			model.addAttribute("titulo", "Formulario del usuario");
 			return "clientes/form";
 		}
-		
+		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 		String mensajeFlash = (usuario.getCliente().getId() != null) ? "Cliente Editado con exito" : "Cliente Creado con Exito";
 		clienteService.save(usuario.getCliente());
 		status.setComplete();
